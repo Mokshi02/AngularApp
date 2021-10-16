@@ -1,0 +1,27 @@
+<div class="content">
+    
+        <h3>REGISTER</h3>
+        <div class="mb-3">
+            <form [formGroup]="authForm" (ngSubmit)="registerUser()">  
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" placeholder="john@example.com"
+                formControlName="email">
+                <br>
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Min 6 Characters"
+                formControlName="password" >
+                <br>
+                <!-- <button (click)="registerUser()">Register</button> -->
+                <button type="submit" class="btn btn-dark">Register</button>
+                <br>
+                <p class="has-text-grey">Already got an account? <a routerLink="/login">Login </a> now! </p>
+            </form>
+    
+            FORM DATA:
+            {{authForm.value | json}}
+            <br>
+            UID: {{uid}}
+    
+        </div>
+     
+</div>

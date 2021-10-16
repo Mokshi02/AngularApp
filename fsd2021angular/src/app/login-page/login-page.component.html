@@ -1,0 +1,63 @@
+ <!-- <div class="content">
+    <div class="white-box">
+
+        <h1 class="title has-text-primary">LOGIN</h1>
+
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input #emailInput class="input has-background-light" type="email" placeholder="Email">
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input #pwInput class="input has-background-light" type="password" placeholder="Password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+          </div>
+          <div class="field" style="display: flex;">
+            <p class="control">
+              <button class="button is-success has-text-white" (click)="onLoginButtonClicked(emailInput.value, pwInput.value)">
+                Login
+              </button>
+            </p>
+          </div>
+          <span class="psw">Forgot <a href="#">password?</a></span>
+          <br>
+          <p class="has-text-grey">Not got an account? <a routerLink="/auth"> Register </a> now! </p>
+
+    </div>
+</div>  -->
+
+<div class="content">
+    
+  <h3>LOGIN</h3>
+  <div class="mb-3">
+      <form [formGroup]="authForm" (ngSubmit)="loginUser()">  
+          <label for="email" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email" placeholder="john@example.com"
+          formControlName="email">
+          <br>
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Min 6 Characters"
+          formControlName="password" >
+          <br>
+          <!-- <button (click)="registerUser()">Register</button> -->
+          <button type="submit" class="btn btn-dark">login</button>
+          <br>
+          <p class="has-text-grey">Not got an account? <a routerLink="/auth"> Register </a> now! </p>
+      </form>
+
+      FORM DATA:
+      {{authForm.value | json}}
+      <br>
+      UID: {{uid}}
+
+  </div>
+
+</div>
