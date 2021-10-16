@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from 'firebase/auth';
 import { DBService } from '../db.service';
-import { getFirestore, collection, addDoc } from '@firebase/firestore/lite'
+import { getFirestore, collection, addDoc, setDoc, doc, Timestamp } from '@firebase/firestore/lite'
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-authenticate',
@@ -30,9 +31,9 @@ export class AuthenticateComponent implements OnInit {
      .then((userCredential) => {
          console.log("User Created in Auth Module");
          const user = userCredential.user;
-         this.uid = userCredential.user.uid;
+         this.uid = user.uid;
          const firestoreDB = getFirestore(this.db.app);
-         const usersCollection = collection(firestoreDB, 'users');
+         /*const usersCollection = collection(firestoreDB, 'users');
          addDoc(usersCollection, {
            name: '',
            phone: '',
@@ -40,8 +41,18 @@ export class AuthenticateComponent implements OnInit {
            profileImage: '',
            address: '',
            uid: this.uid
-         });
-        
+         });*/
+
+         const documentToWrite = doc(firestoreDB, 'users', this.uid);
+         setDoc(documentToWrite, {
+           name: '',
+           phone: '',
+           email: this.authForm.value.email,
+           profileImage: '',
+           address: '',
+           uid: this.uid,
+           creationTime: Timestamp.now()
+         }); 
      })
      .catch((error) =>{
        console.log("Something Went Wrong");
