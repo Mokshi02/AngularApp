@@ -18,6 +18,7 @@ export class RestaurantsComponent implements OnInit {
     new Restaurant("Table By Basant", 40, 4.5, "Indian, Chinesse, Continantal"),
   ];
   */
+  file: any;
 
   cities = [
     {cityName: "Select City", state:""},
@@ -52,20 +53,44 @@ export class RestaurantsComponent implements OnInit {
     //this.restaurants.push(new Restaurant(name, Number(timeToDeliver), Number(ratings), categories))
   }
 
+  pickFile(event:any){
+    this.file = event.target.files[0];
+    console.log(this.restaurantForm.value);
+    console.log(this.file); 
+  }
+
   uploadImgeToFirebase(){
     const metadata = {
       contentType: 'image/jpeg',
     };
-    const filePath = this.restaurantForm.value.image;
     const storageReference = getStorage();
-    const restaurantImageReference = ref(storageReference, "restaurant-images/"+this.restaurantForm.value.email+".jpeg");
-    const uploadTask = uploadBytes(restaurantImageReference, filePath, metadata);
-    console.log("Image Uploaded Successfully");
+      const restaurantImageReference = ref(storageReference, "restaurant-images/"+this.file.name);
+      uploadBytes(restaurantImageReference, this.file, metadata).then((snapshot) => {
+       console.log("Image Uploaded Successfully");
+       getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+      });
+      });
   }
 
   addRestaurantToFirebase(){
+    // const firestoreDB = getFirestore(this.db.app);
+    // const documentToWrite = doc(firestoreDB, 'restaurants');
+    //      setDoc(documentToWrite, {
+    //       name: this.restaurantForm.value.name,
+    //       phone: this.restaurantForm.value.phone,
+    //       email: this.restaurantForm.value.email,
+    //       veg: this.restaurantForm.value.veg,
+    //       nonVeg: this.restaurantForm.value.nonVeg,
+    //       servingType: this.restaurantForm.value.servingType,
+    //       city: this.restaurantForm.value.city,
+    //       image: '',
+    //       creationTime: Timestamp.now()
+    //      }); 
     console.log(this.restaurantForm.value);
     this.uploadImgeToFirebase();
     
   }
 }
+
+
