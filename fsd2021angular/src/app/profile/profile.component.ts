@@ -10,10 +10,7 @@ import{ Profile } from '../model/profile';
 export class ProfileComponent implements OnInit {
   
   // email = new FormControl('demo@example.com');
-  email = new FormControl('', [
-    Validators.required,
-  	Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
-  ]);
+  email = new FormControl('');
   myProfile: Profile = {
     name: "John Watson",
     about: "Learning Angular",
@@ -23,8 +20,12 @@ export class ProfileComponent implements OnInit {
     address: "4562 basant vihar",
   };
   message = "";
+  userData: any
 
-  constructor() { }
+  constructor() { 
+    const data = localStorage.getItem("userData");
+    this.userData = JSON.parse(data!);
+  }
 
   ngOnInit(): void {
   }

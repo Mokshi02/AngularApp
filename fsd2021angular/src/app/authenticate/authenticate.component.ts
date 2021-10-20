@@ -44,7 +44,7 @@ export class AuthenticateComponent implements OnInit {
          });*/
 
          const documentToWrite = doc(firestoreDB, 'users', this.uid);
-         setDoc(documentToWrite, {
+         const userData = {
            name: '',
            phone: '',
            email: this.authForm.value.email,
@@ -52,11 +52,31 @@ export class AuthenticateComponent implements OnInit {
            address: '',
            uid: this.uid,
            creationTime: Timestamp.now()
-         }); 
+         }; 
+         setDoc(documentToWrite, userData);
+        localStorage.setItem("userData", JSON.stringify(userData));
      })
      .catch((error) =>{
        console.log("Something Went Wrong");
      });
   }
 
+  signInUser(){
+    const auth = getAuth();
+
+    //signOut(auth);
+
+    signInWithEmailAndPassword(auth, this.authForm.value.email, this.authForm.value.password)
+    .then((userCredential) => {
+        console.log("User Signed in Auth Module");
+        const user = userCredential.user;
+        this.uid = user.uid;
+    })
+    .catch((error) =>{
+      console.log("Something Went Wrong");
+    });
+  }
+
 }
+
+
