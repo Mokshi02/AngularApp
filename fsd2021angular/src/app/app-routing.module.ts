@@ -9,6 +9,7 @@ import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 
 const routes: Routes = [
+  { path: '', component: LoginPageComponent},
   {path: 'home', component: HomeComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'login', component: LoginPageComponent},

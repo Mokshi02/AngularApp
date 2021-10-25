@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DBService } from './db.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,7 @@ export class AppComponent {
   // Model -> Single Value Container call String
   // Model which are holding data for us :)
   title = 'fsd2021angular';
-
   // Model -> Multi Value Container called Object
-
   profile = {
     name: 'John Watson',
     email: 'John@example.com',

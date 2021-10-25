@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Restaurant } from '../model/restaurant';
 import { RestaurantsService } from '../restaurants.service';
-import { getFirestore, collection, addDoc, getDocs, doc, Timestamp } from '@firebase/firestore/lite';
+import { getFirestore, collection, addDoc, getDocs, doc, Timestamp, deleteDoc, setDoc } from '@firebase/firestore/lite';
 import { getStorage, uploadBytes, ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
 import { DBService } from '../db.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-restaurants',
@@ -22,6 +23,7 @@ export class RestaurantsComponent implements OnInit {
   restaurantList : any;
   addView = false;
   text = "Add Restaurant";
+  updateMode = false;
 
   cities = [
     {cityName: "Select City", state:""},
@@ -47,11 +49,37 @@ export class RestaurantsComponent implements OnInit {
 
   //restaurants = this.service.getRestaurants();
 
-  constructor(private db: DBService) {
+  constructor(private db: DBService, private route: ActivatedRoute) {
     this.fetchPromoRestaurants();
    }
 
+  action: String = "";
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.action = params['action']
+      if(this.action == "delete"){
+        const docId = "";
+        this.deleteRestaurant(docId);
+      }else if(this.action == "update"){
+        this.addView = true;
+        this.updateMode = true;
+        this.text = "Update Restaurant";
+
+        const sessionData = sessionStorage.getItem("restaurant");
+        const restaurantData = JSON.parse(sessionData!);
+
+        this.restaurantForm.patchValue(
+          {
+            name: restaurantData.name,
+            email: restaurantData.email
+          }
+        );
+        const docId = "";
+        this.updateRestaurant(docId);
+      }else{
+        console.log("Do Nothing or Handle the Case");
+      }
+    });
   }
 
   addRestaurant(name: string, timeToDeliver: string, ratings: string, categories: string){
@@ -63,6 +91,11 @@ export class RestaurantsComponent implements OnInit {
     const promoCodeCollection = collection(firestoreDB, 'restaurants');
     const snapshots = await getDocs(promoCodeCollection);
     this.restaurantList = snapshots.docs.map(doc => doc.data());
+    console.log(this.restaurantList);
+
+    snapshots.docs.map(
+      doc => console.log(doc.id)
+    );
   }
 
   pickFile(event:any){
@@ -100,9 +133,23 @@ export class RestaurantsComponent implements OnInit {
         });
   }
 
+  deleteRestaurant(docID: any){
+    console.log("Delete Clicked");
+    const firestoreDB = getFirestore(this.db.app);
+    deleteDoc(doc(firestoreDB, "restaurants", docID));
+}
+
+updateRestaurant(docID: any){
+  const firestoreDB = getFirestore(this.db.app);
+  const documentToWrite = doc(firestoreDB, 'restaurants', docID);
+  const restaurantData = this.restaurantForm.value;
+  setDoc(documentToWrite, restaurantData);
+}
+
   addRestaurantToFirebase(){
     console.log(this.restaurantForm.value);
     this.uploadImgeToFirebase();
+    //this.restaurantForm.reset();
     
   }
 
@@ -113,6 +160,12 @@ export class RestaurantsComponent implements OnInit {
     }else{
       this.text = "Add Restaurant";
     }
+  }
+
+  saveDataInSession(restaurant: any){
+    console.log(restaurant);
+    sessionStorage.setItem("restaurant", JSON.stringify(restaurant));
+    console.log("Restaurant Saved in Session Storage");
   }
 }
 

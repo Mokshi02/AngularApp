@@ -2,6 +2,7 @@
 //import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from 'firebase/auth';
 import { DBService } from '../db.service';
 
@@ -19,7 +20,7 @@ export class LoginPageComponent implements OnInit {
     }
   );
 
-  constructor(db: DBService) { }
+  constructor(private db: DBService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -42,10 +43,12 @@ export class LoginPageComponent implements OnInit {
          console.log("User Login in Auth Module");
          const user = userCredential.user;
          this.uid = userCredential.user.uid;
+         this.db.SetUserLogin(true);
      })
      .catch((error) =>{
        console.log("Something Went Wrong");
      });
+     this.router.navigate(['/home']);
   }
 
 }

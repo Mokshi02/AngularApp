@@ -4,6 +4,7 @@ import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sig
 import { DBService } from '../db.service';
 import { getFirestore, collection, addDoc, setDoc, doc, Timestamp } from '@firebase/firestore/lite'
 import { merge } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authenticate',
@@ -19,7 +20,7 @@ export class AuthenticateComponent implements OnInit {
     }
   );
 
-  constructor(private db: DBService) { }
+  constructor(private db: DBService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -59,6 +60,7 @@ export class AuthenticateComponent implements OnInit {
      .catch((error) =>{
        console.log("Something Went Wrong");
      });
+     this.router.navigate(['/home']);
   }
 
   signInUser(){
