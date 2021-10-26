@@ -14,6 +14,7 @@ import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DishesComponent } from './dishes/dishes.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginPageComponent,
     SignupPageComponent,
     RestaurantsComponent,
-    AuthenticateComponent
+    AuthenticateComponent,
+    DishesComponent
   ],
   imports: [
     BrowserModule,

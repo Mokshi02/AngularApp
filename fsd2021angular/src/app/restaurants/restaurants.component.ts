@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Restaurant } from '../model/restaurant';
 import { RestaurantsService } from '../restaurants.service';
 import { getFirestore, collection, addDoc, getDocs, doc, Timestamp, deleteDoc, setDoc } from '@firebase/firestore/lite';
-import { getStorage, uploadBytes, ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage';
+import { getStorage, uploadBytes, ref, getDownloadURL } from '@firebase/storage';
 import { DBService } from '../db.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -54,13 +54,16 @@ export class RestaurantsComponent implements OnInit {
    }
 
   action: String = "";
+  restaurantData: any;
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.action = params['action']
-      if(this.action == "delete"){
-        const docId = "";
-        this.deleteRestaurant(docId);
-      }else if(this.action == "update"){
+      // if(this.action == "delete"){
+      //   const docId = "";
+      //   this.deleteRestaurant(docId);
+      // } 
+      if(this.action == "update"){
         this.addView = true;
         this.updateMode = true;
         this.text = "Update Restaurant";
@@ -70,12 +73,12 @@ export class RestaurantsComponent implements OnInit {
 
         this.restaurantForm.patchValue(
           {
-            name: restaurantData.name,
-            email: restaurantData.email
+            name: this.restaurantData.name,
+            email: this.restaurantData.email
           }
         );
-        const docId = "";
-        this.updateRestaurant(docId);
+        // const docId = "";
+        // this.updateRestaurant(docId);
       }else{
         console.log("Do Nothing or Handle the Case");
       }
@@ -90,12 +93,15 @@ export class RestaurantsComponent implements OnInit {
     const firestoreDB = getFirestore(this.db.app);
     const promoCodeCollection = collection(firestoreDB, 'restaurants');
     const snapshots = await getDocs(promoCodeCollection);
-    this.restaurantList = snapshots.docs.map(doc => doc.data());
-    console.log(this.restaurantList);
-
-    snapshots.docs.map(
-      doc => console.log(doc.id)
+    
+    this.restaurantList = snapshots.docs.map(
+      doc => {
+        const data = doc.data();
+        data['docID'] = doc.id;
+        return data;
+      }
     );
+    console.log(this.restaurantList);
   }
 
   pickFile(event:any){
@@ -140,13 +146,23 @@ export class RestaurantsComponent implements OnInit {
 }
 
 updateRestaurant(docID: any){
+  if(this.restaurantForm.value.image != ""){
+    // Upload the Image
+  }
   const firestoreDB = getFirestore(this.db.app);
   const documentToWrite = doc(firestoreDB, 'restaurants', docID);
   const restaurantData = this.restaurantForm.value;
+  console.log("Updating Restaurant With Data");
+  console.log(restaurantData);
+  
   setDoc(documentToWrite, restaurantData);
 }
 
   addRestaurantToFirebase(){
+    if(this.updateMode){
+      this.updateRestaurant(this.restaurantData.docID);
+      return;
+    }
     console.log(this.restaurantForm.value);
     this.uploadImgeToFirebase();
     //this.restaurantForm.reset();

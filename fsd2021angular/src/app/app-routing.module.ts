@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DishesComponent } from './dishes/dishes.component';
 import { HomeComponent } from './home/home.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'signup', component: SignupPageComponent},
   {path: 'restaurants', component: RestaurantsComponent},
   {path: 'profile', component: ProfileComponent},
-  {path: 'auth', component: AuthenticateComponent}
+  {path: 'auth', component: AuthenticateComponent},
+  {path: 'dishes', component: DishesComponent}
 ];
 
 @NgModule({
