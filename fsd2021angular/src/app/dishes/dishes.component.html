@@ -1,3 +1,37 @@
 <div class = "content">
     <p>List of Dishes for {{restaurantName}}</p>
+    <div class="mb-3">
+        <form [formGroup]="dishForm" (ngSubmit)="addDishToFirebase()">
+        
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="eg: Burger"
+            formControlName="name">
+            <br>
+
+            <label for="category" class="form-label">Category</label>
+            <input type="text" class="form-control" id="category" placeholder="Chinese"
+            formControlName="category">
+            <br>
+
+            <label for="price" class="form-label">Price</label>
+            <input type="price" class="form-control" id="price" placeholder="Rs. 35"
+            formControlName="price">
+            <br>
+
+            <label for="image" class="form-label">Select Image</label> <br>
+            <input type="file" accept="image/*" (change)="checkImageType($event)">
+            <br>
+            <br>
+
+            <button type="reset" class="btn btn-dark mb-2">Reset</button>
+            <br>
+            <button type="submit" class="btn btn-dark">Add Dish</button>
+        </form>
+    
+        FORM DATA:
+        {{dishForm.value | json}}
+        <!-- <h4 *ngFor="let dish of dishForm.value | keyvalue;">
+            {{ dish.key }}: {{ dish.value }}
+        </h4> -->
+    </div>
 </div>

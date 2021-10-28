@@ -14,7 +14,7 @@
 </div> -->
 
 <div class="content" *ngIf="!updateMode">
-    <button class = "btn btn-dark" (click) = "changeView()">{{text}}</button>
+    <button class = "btn btn-dark" (click) = "changeView()">{{ !addView ? 'Add Restaurant' : 'View Restaurant' }}</button>
 </div>
 <div class="content" *ngIf="addView">
     <h3>{{text}}</h3>
@@ -70,7 +70,9 @@
             <br>
             <br>
             
-            <button type="submit" class="btn btn-dark">{{text}}</button>
+            <button type="reset" class="btn btn-dark mb-2">Reset</button>
+            <br>
+            <button type="submit" class="btn btn-dark mb-2">{{text}}</button>
         </form>
     
         FORM DATA:
