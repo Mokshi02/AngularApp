@@ -15,6 +15,8 @@ import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DishesComponent } from './dishes/dishes.component';
+import { NewsComponent } from './news/news.component';
+import { LifecyclehooksComponent } from './lifecyclehooks/lifecyclehooks.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { DishesComponent } from './dishes/dishes.component';
     SignupPageComponent,
     RestaurantsComponent,
     AuthenticateComponent,
-    DishesComponent
+    DishesComponent,
+    NewsComponent,
+    LifecyclehooksComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,8 @@ import { DishesComponent } from './dishes/dishes.component';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

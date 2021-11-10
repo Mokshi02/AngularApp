@@ -4,7 +4,9 @@ import { AuthenticateComponent } from './authenticate/authenticate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DishesComponent } from './dishes/dishes.component';
 import { HomeComponent } from './home/home.component';
+import { LifecyclehooksComponent } from './lifecyclehooks/lifecyclehooks.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { NewsComponent } from './news/news.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
@@ -18,7 +20,9 @@ const routes: Routes = [
   {path: 'restaurants', component: RestaurantsComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'auth', component: AuthenticateComponent},
-  {path: 'dishes', component: DishesComponent}
+  {path: 'dishes', component: DishesComponent}, 
+  {path: 'news', component: NewsComponent},
+  {path: 'Lifecycle', component: LifecyclehooksComponent},
 ];
 
 @NgModule({

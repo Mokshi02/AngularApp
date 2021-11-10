@@ -7,12 +7,19 @@
       <li><a routerLink = "/restaurants">Restaurants</a></li>
       <li><a routerLink = "/dishes">Dishes</a></li>
       <li><a routerLink = "/profile">Profile</a></li>
+      <li><a routerLink = "/news">News</a></li>
+      <!-- <li><a routerLink = "/Lifecycle">LifeCycle</a></li> -->
        <span class = " nav justify-content-end">
         <li><a routerLink = "/auth">Register</a></li>
         <li><a routerLink = "/login">Login</a></li>
       </span>
      </ul>
   </nav> 
+
+<div class="content">
+  <app-lifecyclehooks *ngIf="show" [quoteVariable]="quote"></app-lifecyclehooks>
+  <button (click)="changeQuote()">Change Quote</button>
+</div>
 
 <router-outlet></router-outlet>
 
